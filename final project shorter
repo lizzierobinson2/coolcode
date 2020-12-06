@@ -1,0 +1,71 @@
+from graphics import*
+from random import*
+from time import*
+from math import sqrt
+
+
+win = GraphWin('My Program', 600, 600)
+win.setBackground('springgreen3')
+
+class mycircle:
+    circle = ''
+    vel_x = 0
+    vel_y = 0 
+    circle_fill = ''
+    circle_outline = ''
+    
+    def __init__(self, circle, vel_x, vel_y, circle_fill, circle_outline):
+        self.circle = circle
+        self.vel_x = vel_x
+        self.vel_y = vel_y
+        self.circle.setFill(circle_fill)
+        self.circle.setOutline(circle_outline)
+        self.circle.draw(win)
+
+circle1 = mycircle(Circle(Point(100,100),30), randint(-8,8), randint(-8,-8), 'tan2', 'magenta')
+circle2 = mycircle(Circle(Point(200,200),30), randint(-8,8), randint(-8,-8), 'tan2', 'magenta')
+circle3 = mycircle(Circle(Point(300,300),30), randint(-8,8), randint(-8,-8), 'tan2', 'magenta')
+circle4 = mycircle(Circle(Point(400,400),30), randint(-8,8), randint(-8,-8), 'red2', 'magenta')
+circle5 = mycircle(Circle(Point(500,500),30), randint(-8,8), randint(-8,-8), 'red2', 'magenta')
+circle6 = mycircle(Circle(Point(150,150),30), randint(-8,8), randint(-8,-8), 'red2', 'magenta')
+circle7 = mycircle(Circle(Point(250,250),30), randint(-8,8), randint(-8,-8), 'green', 'magenta')
+circle8 = mycircle(Circle(Point(350,350),30), randint(-8,8), randint(-8,-8), 'green', 'magenta')
+circle9 = mycircle(Circle(Point(450,450),30), randint(-8,8), randint(-8,-8), 'green', 'magenta')
+
+
+allcircles = [circle1, circle2, circle3, circle4, circle5, circle6, circle7, circle8, circle9]
+
+
+key = win.checkKey()
+while key == '':
+    
+    for c in allcircles:
+        c.circle.move(c.vel_x, c.vel_y)
+        sleep(0.000000001)
+        
+        find_center = c.circle.getCenter()
+        center_x = find_center.getX()
+        center_y = find_center.getY()
+
+        if ((center_x - 30) <= 0) or ((center_x + 30) >= 600):
+            c.vel_x = -c.vel_x
+
+        if ((center_y - 30) <= 0) or ((center_y + 30) >= 600):
+            c.vel_y = -c.vel_y      
+    
+    def circleDistance(cir1, cir2):
+        center1 = cir1.getCenter()
+        center2 = cir2.getCenter()
+        x1 = center1.getX()
+        y1 = center1.getY()
+        x2 = center2.getX()
+        y2 = center2.getY()
+        dist = sqrt((x2-x1) * (x2-x1) + (y2-y1) * (y2-y1))
+        return dist
+
+    for c in allcircles:
+      if circleDistance(c.circle, c.circle) <= 60:
+        c.vel_x = -c.vel_x
+        c.vel_y = -c.vel_y
+
+    key = win.checkKey()
